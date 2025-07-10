@@ -2,16 +2,20 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from time import sleep
+import yaml
 
-from info import user, pw
+with open("config.yaml","r") as f:
+    config = yaml.safe_load(f)
+
+username = config["username"]
+password = config["password"]
 
 service = Service(ChromeDriverManager().install())
-
 driver = webdriver.Chrome(service=service)
 driver.get("https://univirtus.uninter.com/ava/web/#/")
 
-driver.find_element("xpath", '//*[@id="ru"]').send_keys(user)
-driver.find_element("xpath", '//*[@id="senha"]').send_keys(pw)
+driver.find_element("xpath", '//*[@id="ru"]').send_keys(username)
+driver.find_element("xpath", '//*[@id="senha"]').send_keys(password)
 driver.find_element("xpath", '//*[@id="loginBtn"]').click()
 sleep(2)
 driver.find_element("xpath", '//*[@id="loginBoxAva"]/i').click()
